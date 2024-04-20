@@ -16,8 +16,11 @@ public class Game {
         this.players = new LinkedList<>();
     }
     public void initializeGame(){
-        Player player1 = new Player("Rutu" , new PlayingPiece(PieceType.X));
-        Player player2 = new Player("Kshitija" , new PlayingPiece(PieceType.O));
+        System.out.println("Enter First Player' name : ");
+        Scanner playerNameScanner = new Scanner(System.in);
+        Player player1 = new Player(playerNameScanner.nextLine() , new PlayingPiece(PieceType.X));
+        System.out.println("Enter second player name : ");
+        Player player2 = new Player(playerNameScanner.nextLine() , new PlayingPiece(PieceType.O));
         players.add(player1);
         players.add(player2);
     }
@@ -26,13 +29,14 @@ public class Game {
         while(!isWinnerDeclared){
             Player playerTurn = players.removeFirst();
             System.out.println("the current position - ");
-            System.out.printf("it's %s turn", playerTurn.name);
+            board.printBoard();
+            System.out.printf("it's %s turn ", playerTurn.name);
             Scanner scanner = new Scanner(System.in);
             String[] move = scanner.nextLine().split(",");
             int i = Integer.parseInt(move[0]);
             int j = Integer.parseInt((move[1]));
-            if(board.addPiece(i,j,playerTurn.playingPiece)){
-                board.printBoard();
+            if(i < board.size && i >= 0 && j < board.size && j >=0 &&
+                    board.addPiece(i,j,playerTurn.playingPiece)){
                 if(board.didPlayerWin(playerTurn , board)){
                     System.out.println(playerTurn.name + "won!");
                     isWinnerDeclared = true;
